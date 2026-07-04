@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moving Poster</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <main class="poster-stage" aria-label="Animated poster">
+      <!-- Original static poster — never modified, only displayed -->
+      <div
+        class="poster-background"
+        role="img"
+        aria-label="Poster artwork"
+      ></div>
+
+      <!-- Animated overlays sit above the poster only -->
+      <div class="overlay-stack" aria-hidden="true">
+        <div class="overlay overlay-vignette"></div>
+        <div class="overlay overlay-glow">
+          <span class="glow-orb glow-orb--1"></span>
+          <span class="glow-orb glow-orb--2"></span>
+          <span class="glow-orb glow-orb--3"></span>
+        </div>
+        <div class="overlay overlay-sweep"></div>
+        <canvas class="overlay overlay-particles" id="particles"></canvas>
+        <div class="overlay overlay-grain"></div>
+        <div class="overlay overlay-shimmer"></div>
+      </div>
+    </main>
+
+    <script src="js/overlays.js"></script>
+  </body>
+</html>
