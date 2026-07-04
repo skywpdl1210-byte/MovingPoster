@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Moving Poster</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <main class="poster-stage" aria-label="Animated poster">
+      <!-- Fixed static poster — never modified -->
+      <div
+        class="poster-background"
+        role="img"
+        aria-label="Poster artwork"
+      ></div>
+
+      <!-- Animated overlays only -->
+      <div class="overlay-stack" aria-hidden="true">
+        <!-- Masks static walker at path start -->
+        <div class="walker-mask" id="walker-mask"></div>
+
+        <!-- Invisible SVG motion paths (poster coordinate space) -->
+        <svg
+          class="path-defs"
+          id="path-defs"
+          viewBox="0 0 1080 1920"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          <path id="walk-path" fill="none" stroke="none" />
+          <path id="secondary-path" fill="none" stroke="none" />
+          <path id="branch-path" fill="none" stroke="none" />
+        </svg>
+
+        <canvas class="overlay-canvas" id="cluster-canvas"></canvas>
+        <canvas class="overlay-canvas" id="path-canvas"></canvas>
+
+        <div class="walker" id="walker" data-frame="0">
+          <img
+            class="walker-frame walker-frame--1"
+            src="assets/walker-frame-1.png"
+            alt=""
+          />
+          <img
+            class="walker-frame walker-frame--2"
+            src="assets/walker-frame-2.png"
+            alt=""
+          />
+        </div>
+
+        <div class="overlay-fx overlay-grain"></div>
+        <div class="overlay-fx overlay-scanlines"></div>
+        <div class="overlay-fx overlay-flicker"></div>
+      </div>
+    </main>
+
+    <script src="js/poster-layout.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/overlays.js"></script>
+  </body>
+</html>
