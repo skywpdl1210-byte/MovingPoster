@@ -1,0 +1,191 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+.poster-stage {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Original poster — fixed full-screen, exact layout preserved */
+.poster-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-color: #fde01a;
+  background-image: url("../assets/poster.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+}
+
+.overlay-stack {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Hide static figure at walk-path start */
+.walker-mask {
+  position: absolute;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+/* SVG paths share poster contain geometry */
+.path-defs {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.overlay-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#cluster-canvas {
+  z-index: 3;
+}
+
+#path-canvas {
+  z-index: 4;
+}
+
+/* Animated walking figure */
+.walker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  transform-origin: 50% 85%;
+  will-change: transform;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.walker-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+}
+
+.walker[data-frame="0"] .walker-frame--1,
+.walker[data-frame="1"] .walker-frame--2 {
+  opacity: 1;
+}
+
+/* Subtle CRT / texture overlays */
+.overlay-fx {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.overlay-grain {
+  z-index: 6;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  mix-blend-mode: multiply;
+  animation: grain-shift 0.5s steps(3) infinite;
+}
+
+.overlay-scanlines {
+  z-index: 7;
+  opacity: 0.035;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.18) 2px,
+    rgba(0, 0, 0, 0.18) 3px
+  );
+  mix-blend-mode: multiply;
+}
+
+.overlay-flicker {
+  z-index: 8;
+  background: rgba(255, 255, 255, 0.02);
+  animation: screen-flicker 6s ease-in-out infinite;
+}
+
+@keyframes grain-shift {
+  0% {
+    transform: translate(0, 0);
+  }
+  33% {
+    transform: translate(-1%, 0.5%);
+  }
+  66% {
+    transform: translate(0.5%, -1%);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes screen-flicker {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  48% {
+    opacity: 0;
+  }
+  49% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0;
+  }
+  91% {
+    opacity: 0;
+  }
+  92% {
+    opacity: 0.25;
+  }
+  93% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay-grain,
+  .overlay-flicker {
+    animation: none !important;
+  }
+
+  .overlay-grain {
+    opacity: 0.03;
+  }
+
+  .overlay-flicker {
+    opacity: 0;
+  }
+}
